@@ -24,6 +24,8 @@ class CreatePortofoliosTable extends Migration
             $table->string('softwares')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
+
+            $table->foreign('category_id')->on('categories')->references('id');
         });
     }
 
