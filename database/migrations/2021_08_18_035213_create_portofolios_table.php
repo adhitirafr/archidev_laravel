@@ -18,6 +18,7 @@ class CreatePortofoliosTable extends Migration
             $table->unsignedBigInteger('category_id');
             $table->string('title');
             $table->string('slug');
+            $table->string('image')->nullable();
             $table->string('year')->nullable();
             $table->string('short_description')->nullable();
             $table->string('theme')->nullable();

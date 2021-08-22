@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use DB, Auth;
+use DB, Auth, Log;
 
 class AuthController extends Controller
 {
@@ -48,7 +48,9 @@ class AuthController extends Controller
 
                 DB::commit();
 
-                $token = Auth::user()->createToken($tokenName);
+                $tokenName = 'Archidev_user';
+
+                $token = $user->createToken($tokenName);
 
                 return response([
                     'message' => 'User berhasil dibuat',
@@ -66,6 +68,7 @@ class AuthController extends Controller
             }
         }
         catch(\Exception $e) {
+            Log::info($e);
             DB::rollback();
 
             return response([

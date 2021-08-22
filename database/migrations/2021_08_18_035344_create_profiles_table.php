@@ -16,12 +16,10 @@ class CreateProfilesTable extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->text('description');
-            $table->string('favicon')->nullable();
             $table->string('address')->nullable();
             $table->string('whatsapp')->nullable();
             $table->string('telegram')->nullable();
             $table->string('youtube')->nullable();
-            $table->string('discord')->nullable();
             $table->string('linkedln')->nullable();
             $table->timestamps();
         });
