@@ -21,6 +21,7 @@ class CreatePortofoliosTable extends Migration
             $table->string('image')->nullable();
             $table->string('year')->nullable();
             $table->string('short_description')->nullable();
+            $table->string('youtube')->nullable();
             $table->string('theme')->nullable();
             $table->string('softwares')->nullable();
             $table->text('description')->nullable();
