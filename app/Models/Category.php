@@ -14,4 +14,12 @@ class Category extends Model
     public function portofolio() {
         return $this->hasMany(Portofolio::class);
     }
+
+    public function parent() {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    public function child() {
+        return $this->hasMany(Category::class);
+    }
 }

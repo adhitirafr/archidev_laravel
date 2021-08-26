@@ -22,9 +22,12 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
 Route::get('category', [CategoryController::class, 'index']);
+Route::get('category/{category}', [CategoryController::class, 'show']);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
-    Route::apiResource('/category', CategoryController::class);
+    Route::apiResource('/category', CategoryController::class)->only([
+        'post', 'update', 'delete'
+    ]);
 
     Route::apiResource('/portofolio', PortofolioController::class);
 

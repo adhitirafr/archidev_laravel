@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\CategoryResource;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -24,11 +25,19 @@ class CategoryController extends Controller
         return response()->json(CategoryResource::collection($categories), 200);
     }
 
+    public function show(Request $request)
+    {
+        $category = Category::findOrFail($request->category);
+
+        return response()->json(new CategoryResource($category));
+    }
+
     public function store(CategoryRequest $request)
     {
         $store = Category::create([
             'parent_id' => $request->parent_id,
-            'name' => $request->name
+            'name' => $request->name,
+            'slug' => Str::slug($request->name)
         ]);
 
         if($store) {
@@ -49,7 +58,8 @@ class CategoryController extends Controller
 
         $update = $category->update([
             'parent_id' => $request->parent_id,
-            'name' => $request->name
+            'name' => $request->name,
+            'slug' => Str::slug($request->name)
         ]);
 
         if($update) {
