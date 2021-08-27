@@ -23,15 +23,15 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::get('category', [CategoryController::class, 'index']);
 Route::get('category/{category}', [CategoryController::class, 'show']);
+Route::get('/profile', [ProfileController::class, 'index']);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
-    Route::apiResource('/category', CategoryController::class)->only([
-        'post', 'update', 'delete'
+    
+    Route::apiResource('/category', CategoryController::class)->except([
+        'index', 'show'
     ]);
 
     Route::apiResource('/portofolio', PortofolioController::class);
 
-    Route::apiResource('/profile', ProfileController::class)->except([
-        'destroy'
-    ]);
+    Route::post('/profile', [ProfileController::class, 'store']);
 });
