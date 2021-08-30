@@ -23,6 +23,10 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::get('category', [CategoryController::class, 'index']);
 Route::get('category/{category}', [CategoryController::class, 'show']);
+
+Route::get('portofolio', [PortofolioController::class, 'index']);
+Route::get('portofolio/{portofolio}', [PortofolioController::class, 'show']);
+
 Route::get('/profile', [ProfileController::class, 'index']);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
@@ -31,7 +35,9 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
         'index', 'show'
     ]);
 
-    Route::apiResource('/portofolio', PortofolioController::class);
+    Route::apiResource('/portofolio', PortofolioController::class)->except([
+        'index', 'show'
+    ]);
 
     Route::post('/profile', [ProfileController::class, 'store']);
 });

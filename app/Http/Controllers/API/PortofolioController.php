@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PortofolioRequest;
 use App\Models\Portofolio;
 use App\Http\Resources\PortofolioResource;
-use App\Http\Resources\PortofolioPaginateResource;
 use Illuminate\Support\Str;
 use Image, DB, Log;
 
@@ -21,9 +20,20 @@ class PortofolioController extends Controller
             $portofolios = $portofolios->where('title', '%LIKE%', $request->search);
         }
 
-        $portofolios = $portofolios->paginate(12);
+        if($request->count) {
+            return response()->json([
+                'total' => $portofolios->count()
+            ]);
+        }
 
-        return response()->json(PortofolioPaginateResource::collection($portofolios), 200);
+        return PortofolioResource::collection($portofolios->simplePaginate(12));
+    }
+
+    public function show(Request $request)
+    {
+        $portofolio = Portofolio::findOrFail($request->portofolio);
+
+        return new PortofolioResource($portofolio);
     }
     
     public function store(PortofolioRequest $request)
@@ -104,10 +114,9 @@ class PortofolioController extends Controller
 
             return response()->json([
                 'message' => 'Portofolio is updated'
-            ], 500);
+            ], 200);
         }
         catch(\Exception $e) {
-            Log::info($e);
             DB::rollback();
             return response()->json([
                 'message' => 'Portofolio is failed to updated',
@@ -126,6 +135,6 @@ class PortofolioController extends Controller
 
         return response()->json([
             'message' => 'Portofolio is deleted'
-        ], 500);
+        ], 200);
     }
 }

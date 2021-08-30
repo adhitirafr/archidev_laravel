@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
 
 class PortofolioResource extends JsonResource
 {
@@ -14,6 +15,23 @@ class PortofolioResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'category' => [
+                'id' => $this->id,
+                'name' => $this->category->name
+            ],
+            'image' => url('image_upload/'.$this->image),
+            'address' => $this->address,
+            'youtube' => $this->youtube,
+            'softwares' => $this->softwares,
+            'description' => $this->description,
+            'short_description' => $this->short_description,
+            'theme' => $this->theme,
+            'year' => $this->year,
+            'updated_at' => Carbon::parse($this->upated_at)->format('Y-m-d H:i:s'),
+        ];
     }
 }
