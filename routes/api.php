@@ -30,6 +30,8 @@ Route::get('portofolio/{portofolio}', [PortofolioController::class, 'show']);
 Route::get('/profile', [ProfileController::class, 'index']);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
+
+    Route::post('logout', [AuthController::class, 'logout']);
     
     Route::apiResource('/category', CategoryController::class)->except([
         'index', 'show'
