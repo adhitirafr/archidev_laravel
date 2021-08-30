@@ -16,7 +16,7 @@ class PortofolioController extends Controller
     public function index(Request $request)
     {
         $portofolios = Portofolio::orderByDesc('created_at');
-
+    
         if($request->search) {
             $portofolios = $portofolios->where('title', '%LIKE%', $request->search);
         }
@@ -24,7 +24,7 @@ class PortofolioController extends Controller
         if($request->home) {
             $portofolios = $portofolios->limit(3)->get();
 
-            return new PortofolioResource($portofolios);
+            return PortofolioResource::collection($portofolios);
         }
 
         if($request->count) {
