@@ -27,7 +27,7 @@ class CreatePortofoliosTable extends Migration
             $table->text('description')->nullable();
             $table->timestamps();
 
-            $table->foreign('category_id')->on('categories')->references('id');
+            $table->foreign('user_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

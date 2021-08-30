@@ -20,8 +20,8 @@ class PortofolioResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'category' => [
-                'id' => $this->id,
-                'name' => $this->category->name
+                'id' => $this->category->id,
+                'name' => $this->category->name,
             ],
             'image' => url('image_upload/'.$this->image),
             'address' => $this->address,

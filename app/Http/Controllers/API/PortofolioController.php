@@ -8,6 +8,7 @@ use App\Http\Requests\PortofolioRequest;
 use App\Models\Portofolio;
 use App\Http\Resources\PortofolioResource;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 use Image, DB, Log;
 
 class PortofolioController extends Controller
@@ -18,6 +19,12 @@ class PortofolioController extends Controller
 
         if($request->search) {
             $portofolios = $portofolios->where('title', '%LIKE%', $request->search);
+        }
+
+        if($request->home) {
+            $portofolios = $portofolios->limit(3)->get();
+
+            return new PortofolioResource($portofolios);
         }
 
         if($request->count) {
@@ -40,6 +47,10 @@ class PortofolioController extends Controller
     {
         DB::beginTransaction();
 
+        if (! File::exists(public_path() . '/image_upload')) {
+            File::makeDirectory(public_path() . '/image_upload');
+        }
+
         try {
             $image = $request->file('picture');
             $extenImage = $request->picture->getClientOriginalExtension();
@@ -56,10 +67,11 @@ class PortofolioController extends Controller
                 'category_id' => $request->category_id,
                 'year' => $request->year,
                 'youtube' => $request->youtube,
+                'description' => $request->description,
                 'short_description' => $request->short_description,
                 'theme' => $request->theme,
                 'softwares' => $request->softwares,
-                'description' => $request->description,
+                
             ]);
 
             DB::commit();
@@ -69,6 +81,7 @@ class PortofolioController extends Controller
             ], 200);
         }
         catch(\Exception $e) {
+            Log::info($e);
             DB::rollback();
             return response()->json([
                 'message' => 'Portofolio is failed to create',
@@ -104,10 +117,10 @@ class PortofolioController extends Controller
                 'category_id' => $request->category_id,
                 'year' => $request->year,
                 'youtube' => $request->youtube,
+                'description' => $request->description,
                 'short_description' => $request->short_description,
                 'theme' => $request->theme,
                 'softwares' => $request->softwares,
-                'description' => $request->description,
             ]);
 
             DB::commit();
@@ -117,6 +130,7 @@ class PortofolioController extends Controller
             ], 200);
         }
         catch(\Exception $e) {
+            Log::info($e);
             DB::rollback();
             return response()->json([
                 'message' => 'Portofolio is failed to updated',
