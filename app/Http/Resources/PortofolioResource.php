@@ -31,7 +31,8 @@ class PortofolioResource extends JsonResource
             'short_description' => $this->short_description,
             'theme' => $this->theme,
             'year' => $this->year,
-            'updated_at' => Carbon::parse($this->upated_at)->format('Y-m-d H:i:s'),
+            'date' => Carbon::parse($this->updated_at)->format('M Y'),
+            'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d H:i:s'),
         ];
     }
 }
