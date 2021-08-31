@@ -38,7 +38,7 @@ class PortofolioController extends Controller
 
     public function show(Request $request)
     {
-        $portofolio = Portofolio::findOrFail($request->portofolio);
+        $portofolio = Portofolio::where('slug', $request->portofolio)->firstOrFail();
 
         return new PortofolioResource($portofolio);
     }
