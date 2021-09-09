@@ -22,7 +22,7 @@ class PortofolioController extends Controller
         }
 
         if($request->home) {
-            $portofolios = $portofolios->limit(3)->get();
+            $portofolios = $portofolios->limit(4)->get();
 
             return PortofolioResource::collection($portofolios);
         }
